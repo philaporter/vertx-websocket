@@ -1,0 +1,5 @@
+{
+  "httpPort": 8989,
+  "instances": 4,
+  "redisHost": "127.0.0.1"
+}
