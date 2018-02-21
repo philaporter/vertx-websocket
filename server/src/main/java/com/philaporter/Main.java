@@ -1,16 +1,16 @@
 package com.philaporter;
 
+import com.philaporter.verticles.WebsocketServerVerticle;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.config.ConfigRetrieverOptions;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.DeploymentOptions;
-import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+//import io.vertx.reactivex.core.Vertx;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+
+import io.vertx.core.Vertx;
 
 /** @author Philip Porter */
 public class Main {
@@ -34,6 +34,14 @@ public class Main {
             vertx.close();
           } else {
             config = ar.result();
+            WebsocketServerVerticle server1 = new WebsocketServerVerticle(8080);
+            //WebsocketServerVerticle server2 = new WebsocketServerVerticle(8081);
+
+            //            vertx.rxDeployVerticle(server1, new
+            // DeploymentOptions().setWorkerPoolSize(2)).toObservable().subscribe();
+
+            vertx.deployVerticle(server1);
+            //vertx.deployVerticle(server2);
           }
         });
   }

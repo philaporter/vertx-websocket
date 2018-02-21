@@ -1,5 +1,6 @@
 package com.philaporter;
 
+import com.philaporter.verticles.WebsocketClientVerticle;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.config.ConfigRetrieverOptions;
 import io.vertx.config.ConfigStoreOptions;
@@ -34,6 +35,7 @@ public class Main {
             vertx.close();
           } else {
             config = ar.result();
+            vertx.deployVerticle(WebsocketClientVerticle.class.getName());
           }
         });
   }
