@@ -1,13 +1,12 @@
 package com.philaporter;
 
 import com.philaporter.verticles.WebsocketServerVerticle;
-import java.io.IOException;
 import io.vertx.core.Vertx;
 
 /** @author Philip Porter */
 public class Main {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     printBanner();
     Vertx vertx = Vertx.vertx();
 
