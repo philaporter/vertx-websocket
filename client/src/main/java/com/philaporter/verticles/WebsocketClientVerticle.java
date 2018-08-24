@@ -2,30 +2,40 @@ package com.philaporter.verticles;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
+import io.vertx.core.buffer.Buffer;
 
 public class WebsocketClientVerticle extends AbstractVerticle {
 
+  public static final String HOST = "localhost";
+  public static final String ENDPOINT = "/";
+  public static final int PORT = 8080;
+
   public void start(Future startFuture) {
-    final String id = this.deploymentID();
+
     vertx
         .createHttpClient()
         .websocket(
-            8080,
-            "localhost",
-            "/",
+            PORT,
+            HOST,
+            ENDPOINT,
             ws -> {
-                ws.writeTextMessage("Start");
-              ws.handler(
-                  data -> {
-                    System.out.println(data.toString("ISO-8859-1"));
-                    ws.writeTextMessage("Hey there");
+              // Start the back and forth
+              ws.writePing(Buffer.buffer());
+              ws.pongHandler(
+                  pongHandler -> {
+                    System.out.println("Received PONG");
+                    vertx.setTimer(
+                        2000,
+                        delayedAction -> {
+                          ws.writePing(Buffer.buffer());
+                        });
                   });
               ws.endHandler(
                   close -> {
-                    System.out.println("Connection stopped, undeploying verticle");
-                    vertx.undeploy(id);
+                    System.out.println("Connection dropped");
                     vertx.close();
                   });
             });
+    startFuture.complete();
   }
 }
