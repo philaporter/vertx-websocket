@@ -1,7 +1,7 @@
 package com.philaporter.verticles;
 
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
-import io.vertx.reactivex.core.AbstractVerticle;
 
 public class WebsocketServerVerticle extends AbstractVerticle {
 
@@ -9,10 +9,17 @@ public class WebsocketServerVerticle extends AbstractVerticle {
 
   @Override
   public void start(Future startFuture) {
+
     vertx
         .createHttpServer()
         .websocketHandler(
             ws -> {
+              // Delayed action to stop PONGs.. Trigger client undeploy
+              vertx.setTimer(
+                  9000,
+                  delayedAction -> {
+                    ws.pause();
+                  });
               ws.endHandler(
                   close -> {
                     System.out.println("Dropped client connection");

@@ -19,16 +19,23 @@ public class WebsocketClientVerticle extends AbstractVerticle {
             HOST,
             ENDPOINT,
             ws -> {
-              // Start the back and forth
-              ws.writePing(Buffer.buffer());
-              ws.pongHandler(
-                  pongHandler -> {
-                    System.out.println("Received PONG");
-                    vertx.setTimer(
-                        2000,
-                        delayedAction -> {
-                          ws.writePing(Buffer.buffer());
-                        });
+              // Start the back and forth - enforce PONG timeout
+              vertx.setPeriodic(
+                  2000,
+                  periodicAction -> {
+                    long id =
+                        vertx.setTimer(
+                            2000,
+                            delayedAction -> {
+                              System.out.println("Undeploy");
+                              vertx.undeploy(this.deploymentID());
+                            });
+                    ws.writePing(Buffer.buffer())
+                        .pongHandler(
+                            handler -> {
+                              System.out.println("GOT ME A PONG");
+                              vertx.cancelTimer(id);
+                            });
                   });
               ws.endHandler(
                   close -> {
