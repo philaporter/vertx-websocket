@@ -6,6 +6,6 @@ A project exploring the basic potential of vertx websockets
 `cd vertx-websocket/server`<br />
 `mvn clean install`<br />
 `java -jar target/vertx*-fat.jar`<br />
-`cd ../client`
+`cd ../client`<br />
 `mvn clean install`<br />
 `java -jar target/vertx*-fat.jar`
