@@ -1,7 +1,11 @@
-## Vert.x Goodness
-Another project exploring the vert.x framework using Java
+## Vert.x Websocket Goodness
+A project exploring the basic potential of vertx websockets
 
 ### Getting started
-```git clone <repo>```<br />
-```mvn clean install```<br />
-```java -jar target/vertx-goodness-2.17.2018-fat.jar```
+`git clone https://github.com/philaporter/vertx-websocket.git`<br />
+`cd vertx-websocket/server`<br />
+`mvn clean install`<br />
+`java -jar target/vertx*-fat.jar`<br />
+`cd ../client`
+`mvn clean install`<br />
+`java -jar target/vertx*-fat.jar`
