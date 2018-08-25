@@ -23,17 +23,21 @@ public class WebsocketClientVerticle extends AbstractVerticle {
               vertx.setPeriodic(
                   2000,
                   periodicAction -> {
-                    long id =
+                    final long id =
                         vertx.setTimer(
                             2000,
                             delayedAction -> {
-                              System.out.println("Undeploy");
-                              vertx.undeploy(this.deploymentID());
+                              System.out.println("Undeploy and close");
+                              vertx.undeploy(
+                                  this.deploymentID(),
+                                  undeployed -> {
+                                    vertx.close();
+                                  });
                             });
                     ws.writePing(Buffer.buffer())
                         .pongHandler(
                             handler -> {
-                              System.out.println("GOT ME A PONG");
+                              System.out.println("GOT ME A PONG - " + System.nanoTime());
                               vertx.cancelTimer(id);
                             });
                   });
