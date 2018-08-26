@@ -3,7 +3,7 @@ package com.philaporter.verticles;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 
-public class WebsocketServerVerticle extends AbstractVerticle {
+public class WebSocketServerVerticle extends AbstractVerticle {
 
   public static final int PORT = 8080;
 
@@ -20,9 +20,10 @@ public class WebsocketServerVerticle extends AbstractVerticle {
                   delayedAction -> {
                     ws.pause();
                   });
-              ws.endHandler(
+              ws.closeHandler(
                   close -> {
                     System.out.println("Dropped client connection");
+                    vertx.close();
                   });
             })
         .listen(PORT);

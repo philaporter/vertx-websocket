@@ -1,6 +1,6 @@
 package com.philaporter;
 
-import com.philaporter.verticles.WebsocketServerVerticle;
+import com.philaporter.verticles.WebSocketServerVerticle;
 import io.vertx.core.Vertx;
 
 /** @author Philip Porter */
@@ -11,7 +11,7 @@ public class Main {
     Vertx vertx = Vertx.vertx();
 
     vertx.deployVerticle(
-        WebsocketServerVerticle.class.getName(),
+        WebSocketServerVerticle.class.getName(),
         handler -> {
           if (handler.succeeded()) {
             System.out.println("Deployed websocket server");

@@ -4,7 +4,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 
-public class WebsocketClientVerticle extends AbstractVerticle {
+public class WebSocketClientVerticle extends AbstractVerticle {
 
   public static final String HOST = "localhost";
   public static final String ENDPOINT = "/";
@@ -28,11 +28,7 @@ public class WebsocketClientVerticle extends AbstractVerticle {
                             2000,
                             delayedAction -> {
                               System.out.println("Undeploy and close");
-                              vertx.undeploy(
-                                  this.deploymentID(),
-                                  undeployed -> {
-                                    vertx.close();
-                                  });
+                              vertx.undeploy(this.deploymentID());
                             });
                     ws.writePing(Buffer.buffer())
                         .pongHandler(
